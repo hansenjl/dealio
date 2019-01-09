@@ -1,0 +1,2 @@
+class Dealio::Deal   
+end
