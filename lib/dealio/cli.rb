@@ -11,7 +11,9 @@ class Dealio::CLI
         puts "in electronics"
         #Scrape the Electronics page 
         url = "https://www.bradsdeals.com/categories/electronics"
-        Dealio::Scraper.scrape_categories(url)
+        categories =  Dealio::Scraper.scrape_categories(url)
+        puts categories[1].name
+        puts categories[1].url
       when "home"
          puts "in home"
       when "shoes"
