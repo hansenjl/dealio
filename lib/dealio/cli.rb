@@ -32,7 +32,6 @@ class Dealio::CLI
     Dealio::Category.all.each.with_index(1) do |category, index|
       puts "#{index}. #{category.name}"
     end
-    
   end
   
   def choose_category
@@ -50,7 +49,8 @@ class Dealio::CLI
   end
   
   def display_category_items(category)
-    
+    Dealio::Scraper.scrape_items(category)
+    category.items 
   end
   
   def scrape_electronics

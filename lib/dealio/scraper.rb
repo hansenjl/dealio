@@ -12,4 +12,12 @@ class Dealio::Scraper
     #return value will now be an array of objects 
   end
   
+  def self.scrape_items(category)
+    webpage = Nokogiri::HTML(open(category.url))
+    items = webpage.css("div.col.information h3 a.go-link")
+    items.each do |item_link|
+      category.items << item_link.text 
+    end
+  end
+  
 end
