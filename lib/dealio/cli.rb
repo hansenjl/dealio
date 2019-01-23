@@ -2,6 +2,10 @@ class Dealio::CLI
   
   def start   #instance method
     puts "Welcome to Dealio!"
+    menu
+  end
+  
+  def menu
     puts "What category do you want deals on today?"
     puts "Electronics, home goods, or shoes?"
     puts "Type either 'electronics', 'home', or 'shoes'"
@@ -9,11 +13,8 @@ class Dealio::CLI
     case input 
       when "electronics"
         puts "in electronics"
-        #Scrape the Electronics page 
-        url = "https://www.bradsdeals.com/categories/electronics"
-        categories =  Dealio::Scraper.scrape_categories(url)
-        puts categories[1].name
-        puts categories[1].url
+        scrape_electronics
+        list_categories
       when "home"
          puts "in home"
       when "shoes"
@@ -21,15 +22,19 @@ class Dealio::CLI
       when "exit"
          puts "Goodbye"
       else
-        puts "invalid"
-        #they didn't put in a correct input
+        puts "Sorry! I didn't understand that input"
+        menu
     end
+  end
   
-    
-    
-    
-    
-    
-    
+  def list_categories
+    Dealio::Category.all.each.with_index(1) do |category, index|
+      puts "#{index}. #{category.name}"
+    end
+  end
+  
+  def scrape_electronics
+      url = "https://www.bradsdeals.com/categories/electronics"
+      categories =  Dealio::Scraper.scrape_categories(url)
   end
 end
