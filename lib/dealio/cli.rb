@@ -59,7 +59,7 @@ class Dealio::CLI
   end
 
   def display_category_items(category)
-    Dealio::Scraper.scrape_items(category)
+    Dealio::Scraper.scrape_items(category) if category.deals.length == 0 
     puts "Here are the deals for #{category.name}:\n"
     category.deals.each.with_index(1) do |deal, index|   #represents an array of deal objects
       #print out info about each deal
@@ -89,12 +89,12 @@ class Dealio::CLI
   end
 
   def second_menu
-    puts "Would you like to look at another category? Type 'C'"
-    puts "Would you like to go to the start? Type 'S'"
-    puts "Would you like to exit? Type 'E'"
+    puts "Would you like to look at more deals for #{@theme}? Type 'M' or 'more'"
+    puts "Would you like to go to the start? Type 'S' or 'start'"
+    puts "Would you like to exit? Type 'E' or 'exit'"
     input = gets.strip.upcase
     case input 
-    when "C", "CATEGORY"
+    when "M", "MORE"
       list_categories
       choose_category
     when "S", "START"
