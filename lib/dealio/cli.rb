@@ -9,7 +9,7 @@ class Dealio::CLI
   def menu
     puts "What category do you want deals on today?"
     puts "Electronics, home goods, or shoes?"
-    puts "Type either 'electronics', 'home', or 'shoes'"
+    puts "Type either 'electronics', 'home', or 'shoes'".colorize(:green)
     input = gets.strip.downcase
     case input
       when "electronics"
@@ -31,7 +31,7 @@ class Dealio::CLI
         list_categories
         choose_category
       when "exit"
-         puts "Goodbye"
+         puts "Goodbye".red
       else
         puts "Sorry! I didn't understand that input"
         menu  #recursion
@@ -40,7 +40,7 @@ class Dealio::CLI
 
   def list_categories
     Dealio::Category.all.select{|item| item.type == @theme}.each.with_index(1) do |category, index|
-      puts "#{index}. #{category.name}"
+      puts "#{index}. #{category.name}".colorize(:light_blue)
     end
   end
 
@@ -63,8 +63,8 @@ class Dealio::CLI
     puts "Here are the deals for #{category.name}:\n"
     category.deals.each.with_index(1) do |deal, index|   #represents an array of deal objects
       #print out info about each deal
-      puts "\n#{index}. #{deal.product}"
-      puts "Price: #{deal.price}"
+      puts "\n#{index}. #{deal.product}".blue.underline
+      puts "Price: $#{deal.price}".colorize(:yellow)
       puts deal.description
     end
     second_menu
@@ -89,9 +89,9 @@ class Dealio::CLI
   end
 
   def second_menu
-    puts "Would you like to look at more deals for #{@theme}? Type 'M' or 'more'"
-    puts "Would you like to go to the start? Type 'S' or 'start'"
-    puts "Would you like to exit? Type 'E' or 'exit'"
+    puts "\nWould you like to look at more deals for #{@theme}? #{"Type 'M' or 'more'".green}"
+    puts "Would you like to go to the start? #{"Type 'S' or 'start'".green}"
+    puts "Would you like to exit? #{"Type 'E' or 'exit'".green}"
     input = gets.strip.upcase
     case input 
     when "M", "MORE"
@@ -100,7 +100,7 @@ class Dealio::CLI
     when "S", "START"
       menu
     when "E", "EXIT", "QUIT"
-      puts "Goodbye!"
+      puts "Goodbye!".red
     else
       puts "Sorry I couldn't understand that command"
       second_menu
