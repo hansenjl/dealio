@@ -13,17 +13,17 @@ class Dealio::CLI
     case input
       when "electronics"
         puts "in electronics"
-        scrape_electronics
+        scrape_categories("electronics") if Dealio::Category.electronics.length == 0 
         list_categories
         choose_category
       when "home"
-         puts "in home"
-        scrape_home
+        puts "in home"
+        scrape_categories("home") if Dealio::Category.homegoods.length == 0 
         list_categories
         choose_category
       when "shoes"
         puts "in shoes"
-        scrape_shoes
+        scrape_categories("shoes")   if Dealio::Category.shoes.length == 0      
         list_categories
         choose_category
       when "exit"
@@ -66,17 +66,22 @@ class Dealio::CLI
     second_menu
   end
 
-  def scrape_electronics
-      url = "https://www.bradsdeals.com/categories/electronics"
-      categories =  Dealio::Scraper.scrape_categories(url)
-  end
-  def scrape_home
-      url = "https://www.bradsdeals.com/categories/home"
-      categories =  Dealio::Scraper.scrape_categories(url)
-  end
-  def scrape_shoes
-      url = "https://www.bradsdeals.com/categories/shoes"
-      categories =  Dealio::Scraper.scrape_categories(url)
+  # def scrape_electronics
+  #     url = "https://www.bradsdeals.com/categories/electronics"
+  #     categories =  Dealio::Scraper.scrape_categories(url)
+  # end
+  # def scrape_home
+  #     url = "https://www.bradsdeals.com/categories/home"
+  #     categories =  Dealio::Scraper.scrape_categories(url)
+  # end
+  # def scrape_shoes
+  #     url = "https://www.bradsdeals.com/categories/shoes"
+  #     categories =  Dealio::Scraper.scrape_categories(url)
+  # end
+  
+  def scrape_categories(type)
+    url = "https://www.bradsdeals.com/categories/" + type 
+    categories =  Dealio::Scraper.scrape_categories(url, type)
   end
 
   def second_menu
