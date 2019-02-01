@@ -14,7 +14,7 @@ class Dealio::Category
     @@all
   end
   
-  def self.homegoods
+  def self.home
     @@all.select{|item| item.type == "home"}
   end
   
