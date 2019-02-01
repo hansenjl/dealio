@@ -1,7 +1,7 @@
 class Dealio::CLI
 
   def start   #instance method
-    puts "Welcome to Dealio!"
+    puts "Welcome to Dealio!".colorize(:yellow)
     menu
   end
 
