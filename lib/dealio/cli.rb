@@ -60,13 +60,18 @@ class Dealio::CLI
 
   def display_category_items(category)
     Dealio::Scraper.scrape_items(category) if category.deals.length == 0 
-    puts "Here are the deals for #{category.name}:\n"
-    category.deals.each.with_index(1) do |deal, index|   #represents an array of deal objects
-      #print out info about each deal
-      puts "\n#{index}. #{deal.product}".blue.underline
-      puts "Price: $#{deal.price}".colorize(:yellow)
-      puts deal.description
+    if category.deals.length == 0
+      puts "Sorry! No deals in this category today".blue.underline 
+    else
+      puts "Here are the deals for #{category.name}:\n"
+      category.deals.each.with_index(1) do |deal, index|   #represents an array of deal objects
+        #print out info about each deal
+        puts "\n#{index}. #{deal.product}".blue.underline
+        puts "Price: $#{deal.price}".colorize(:yellow)
+        puts deal.description
+      end
     end
+    
     second_menu
   end
 
