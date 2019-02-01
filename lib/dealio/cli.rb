@@ -18,8 +18,14 @@ class Dealio::CLI
         choose_category
       when "home"
          puts "in home"
+        scrape_home
+        list_categories
+        choose_category
       when "shoes"
-         puts "in shoes"
+        puts "in shoes"
+        scrape_shoes
+        list_categories
+        choose_category
       when "exit"
          puts "Goodbye"
       else
@@ -64,18 +70,27 @@ class Dealio::CLI
       url = "https://www.bradsdeals.com/categories/electronics"
       categories =  Dealio::Scraper.scrape_categories(url)
   end
+  def scrape_home
+      url = "https://www.bradsdeals.com/categories/home"
+      categories =  Dealio::Scraper.scrape_categories(url)
+  end
+  def scrape_shoes
+      url = "https://www.bradsdeals.com/categories/shoes"
+      categories =  Dealio::Scraper.scrape_categories(url)
+  end
 
   def second_menu
     puts "Would you like to look at another category? Type 'C'"
     puts "Would you like to go to the start? Type 'S'"
     puts "Would you like to exit? Type 'E'"
     input = gets.strip.upcase
-    if input == "C"
+    case input 
+    when "C", "CATEGORY"
       list_categories
       choose_category
-    elsif input == "S"
+    when "S", "START"
       menu
-    elsif input == "E"
+    when "E", "EXIT", "QUIT"
       puts "Goodbye!"
     else
       puts "Sorry I couldn't understand that command"
