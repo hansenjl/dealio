@@ -2,7 +2,7 @@ class Dealio::CLI
   attr_accessor :theme
   
   def start   #instance method
-    puts "Welcome to Dealio!".colorize(:yellow)
+    puts "Welcome to Dealio!".yellow
     menu
   end
 
