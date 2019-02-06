@@ -1,7 +1,9 @@
 class Dealio::CLI
+  attr_reader :counter, :type
 
   def start   #instance method
     puts "Welcome to Dealio!".colorize(:yellow)
+    @counter = 0 
     menu
   end
 
@@ -13,17 +15,27 @@ class Dealio::CLI
     case input
       when "electronics"
         puts "in electronics"
-        scrape_categories("electronics")
+        @type = "electronics"
+        if  @counter == 0  #not already scraped
+          scrape_categories
+          @counter = 1 
+        end
         list_categories
         choose_category
       when "home"
          puts "in home"
-         scrape_categories("home")
+         @type = "home"
+         if !Dealio::Category.all.find{|category| category.type == "home"}
+          scrape_categories
+        end
          list_categories
          choose_category
       when "shoes"
          puts "in shoes"
-         scrape_categories("shoes")
+         @type = "shoes"
+         if Dealio::Category.type(@type) == []
+           scrape_categories
+         end
          list_categories
          choose_category
       when "exit"
@@ -33,9 +45,10 @@ class Dealio::CLI
         menu  #recursion
     end
   end
-
+  
+  
   def list_categories
-    Dealio::Category.all.each.with_index(1) do |category, index|
+    Dealio::Category.type(@type).each.with_index(1) do |category, index|
       puts "#{index}. #{category.name}"
     end
   end
@@ -43,9 +56,9 @@ class Dealio::CLI
   def choose_category
     puts "\nChoose a category by selecting a number:"
     input = gets.strip.to_i
-    max_value = Dealio::Category.all.length
+    max_value = Dealio::Category.type(@type).length
     if input.between?(1,max_value)
-      category = Dealio::Category.all[input-1]
+      category = Dealio::Category.type(@type)[input-1]
       display_category_items(category)
     else
       puts "\nPlease put in a valid input"
@@ -55,7 +68,9 @@ class Dealio::CLI
   end
 
   def display_category_items(category)
-    Dealio::Scraper.scrape_items(category)
+    if category.description == [] 
+      Dealio::Scraper.scrape_items(category)
+    end
     puts "Here are the deals for #{category.name}:\n"
     category.deals.each.with_index(1) do |deal, index|   #represents an array of deal objects
       #print out info about each deal
@@ -66,9 +81,8 @@ class Dealio::CLI
     second_menu
   end
 
-  def scrape_categories(theme)
-      url = "https://www.bradsdeals.com/categories/#{theme}"
-      categories =  Dealio::Scraper.scrape_categories(url)
+  def scrape_categories
+      categories =  Dealio::Scraper.scrape_categories(@type)
   end
 
   def second_menu
