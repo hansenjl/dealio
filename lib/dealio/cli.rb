@@ -13,13 +13,19 @@ class Dealio::CLI
     case input
       when "electronics"
         puts "in electronics"
-        scrape_electronics
+        scrape_categories("electronics")
         list_categories
         choose_category
       when "home"
          puts "in home"
+         scrape_categories("home")
+         list_categories
+         choose_category
       when "shoes"
          puts "in shoes"
+         scrape_categories("shoes")
+         list_categories
+         choose_category
       when "exit"
          puts "Goodbye"
       else
@@ -60,8 +66,8 @@ class Dealio::CLI
     second_menu
   end
 
-  def scrape_electronics
-      url = "https://www.bradsdeals.com/categories/electronics"
+  def scrape_categories(theme)
+      url = "https://www.bradsdeals.com/categories/#{theme}"
       categories =  Dealio::Scraper.scrape_categories(url)
   end
 
