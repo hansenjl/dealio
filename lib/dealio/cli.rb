@@ -71,13 +71,18 @@ class Dealio::CLI
     if category.description == [] 
       Dealio::Scraper.scrape_items(category)
     end
-    puts "Here are the deals for #{category.name}:\n"
-    category.deals.each.with_index(1) do |deal, index|   #represents an array of deal objects
+    if category.deals == []
+      puts "Sorry there aren't any deals!"
+    else
+    
+      puts "Here are the deals for #{category.name}:\n"
+      category.deals.each.with_index(1) do |deal, index|   #represents an array of deal objects
       #print out info about each deal
-      puts "\n#{index}. #{deal.product}"
-      puts "Price: #{deal.price}"
-      puts deal.description
-    end
+        puts "\n#{index}. #{deal.product}" if deal.product 
+        puts "Price: $#{deal.price}" if deal.price 
+        puts deal.description
+      end
+   end
     second_menu
   end
 

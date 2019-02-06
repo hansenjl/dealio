@@ -14,17 +14,19 @@ class Dealio::Scraper
   end
 
   def self.scrape_items(category)
+    
     webpage = Nokogiri::HTML(open(category.url))
     items = webpage.css("div.row div.col.information")
+    
     items.each do |card|
       #creating an instance
-      deal = Dealio::Deal.new
+      deal = Dealio::Deal.new  #has_many relationship
 
       name_and_price = card.css("a.go-link").text.split("$")
 
       #Assigning object attributes
       deal.description = card.css("p").text
-      deal.product = name_and_price[0]
+      deal.product = name_and_price[0]  
       deal.price = name_and_price[1]
 
       #Associated Objects
